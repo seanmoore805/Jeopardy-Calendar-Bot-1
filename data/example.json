@@ -1,0 +1,69 @@
+{
+	"name": "Example Game",
+	"firstDay": "2023-01-02",
+	"lastDay": "2023-01-08",
+	"version": "0.1",
+	"questions": [
+		{
+			"category": "EXAMPLE CATEGORY",
+			"round": "Jeopardy",
+			"value": 200,
+			"clue": "This file demonstrates the format of a Jeopardy! game file.",
+			"responses": "example.json",
+			"originalDate": "1990-01-01"
+		},
+		{
+			"category": "EXAMPLE CATEGORY",
+			"round": "Jeopardy",
+			"value": 600,
+			"clue": "Don't know the date the clue was first seen, or making up your own? Then leave this field out.",
+			"responses": ["originalDate", "original date"]
+		},
+		{
+			"category": "EXAMPLE CATEGORY",
+			"round": "Jeopardy",
+			"value": 1000,
+			"clue": "This field is case insensitive and can be a single string or an array of strings.",
+			"responses": "responses",
+			"originalDate": "1990-01-03"
+		},
+		{
+			"category": "MORE NOTES",
+			"round": "Double Jeopardy",
+			"value": 400,
+			"clue": "I'm not creative to keep up the formatting. Anyway, having multiple responses is recommended",
+			"responses": [
+				"Even with only one canonical answer",
+				"there can be multiple accecptable responses",
+				"from misspellings",
+				"or including different parts of a name",
+				"(alongside some clues having multiple correct answers on the calendar)"
+			],
+			"originalDate": "1990-01-04"
+		},
+		{
+			"category": "MORE NOTES",
+			"round": "Double Jeopardy",
+			"value": 800,
+			"clue": "While intended for specifically for the Jeopardy! calendar, this format can theoritically be used for any game",
+			"responses": "Edit the schema in `/.vscode/settings.json` to fit your needs (or just delete it if you don't care about validation)",
+			"originalDate": "1990-01-05"
+		},
+		{
+			"category": "MORE NOTES",
+			"round": "Double Jeopardy",
+			"value": 1600,
+			"clue": "The day before final, the final category will also be revealed",
+			"responses": "and players will be able to wager",
+			"originalDate": "1990-01-06"
+		},
+		{
+			"category": "THE FINALE",
+			"round": "Final Jeopardy",
+			"value": null,
+			"clue": "For final, the dollor value should be set to `null`",
+			"responses": "(it should be optional for final, but I haven't figured out how to set that in the schema yet)",
+			"originalDate": "1990-01-07"
+		}
+	]
+}
