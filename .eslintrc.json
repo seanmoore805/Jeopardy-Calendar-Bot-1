@@ -108,7 +108,7 @@
             "warn",
             {
                 "code": 120,
-                "comments": 80,
+                "comments": 120,
                 "tabWidth": 4,
                 "ignoreUrls": true,
                 "ignoreRegExpLiterals": true,
@@ -125,7 +125,6 @@
             "warn",
             { "ignoreChainWithDepth": 3 }
         ],
-        "no-multi-spaces": "warn",
         "no-mixed-spaces-and-tabs": [
             "warn",
             "smart-tabs"
@@ -162,7 +161,7 @@
         ],
         "operator-linebreak": [
             "warn",
-            "before"
+            "after"
         ],
         "prefer-const": "warn",
         "quote-props": [

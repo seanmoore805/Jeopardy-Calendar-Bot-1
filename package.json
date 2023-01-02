@@ -1,10 +1,14 @@
 {
   "name": "jeopardy-calendar-bot",
-  "version": "1.0.0",
+  "version": "0.0.1-alpha",
   "description": "A Discord bot for playing the Jeopardy! Day-to-Day Calendar",
-  "main": "index.js",
+  "main": "./out/index.js",
   "scripts": {
-    "test": "jest"
+    "start": "node ./out/src/index.js",
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint . --ext .ts",
+    "deploy-commands": "node ./out/src/deployCommands.js"
   },
   "author": "",
   "license": "MIT",
