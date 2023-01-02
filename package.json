@@ -14,7 +14,8 @@
   "license": "MIT",
   "dependencies": {
     "discord.js": "^14.7.1",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "twemoji": "^14.0.2"
   },
   "devDependencies": {
     "@jest/globals": "^29.3.1",

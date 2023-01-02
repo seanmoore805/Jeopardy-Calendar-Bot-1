@@ -153,5 +153,8 @@
 	],
 	"files.watcherExclude": {
 		"**/target": true
-	}
+	},
+	"cSpell.words": [
+		"Uhhh"
+	]
 }
