@@ -7,11 +7,13 @@ import {
 	Collection,
 	EmbedBuilder,
 	Events,
-	GatewayIntentBits
+	GatewayIntentBits,
+	PresenceStatusData,
 } from "discord.js";
 import fs from "fs";
 import path from "path";
 import emojiToImage from "./emojiToImage";
+import { ownerId, status } from "../config.json";
 
 declare module "discord.js" {
 	export interface Client {
@@ -42,8 +44,9 @@ client.on(Events.ClientReady, (c) => {
 		`guilds with ${client.commands.size} commands`
 	);
 
-	c.user.setActivity({ name: "Under development", type: ActivityType.Playing});
-	c.user.setStatus("idle");
+	// TODO: Match status type to ActivityType
+	c.user.setActivity({ name: status.name, type: ActivityType.Playing });
+	c.user.setStatus(status.status as PresenceStatusData);
 });
 
 client.commands = new Collection();
@@ -84,8 +87,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
 		const embed = new EmbedBuilder()
 			.setTitle(`Unknown command: \`${interaction.commandName}\``)
 			.setDescription(
-				"Somehow, you managed to trigger a command that doesn't exist.\n" +
-				"Please let <@438818224293937153> know something has gone wrong!"
+				`Somehow, you managed to trigger a command that doesn't exist.
+				Please let <@${ownerId}> know something has gone wrong!`
 			)
 			.setFooter({
 				text: `Requested by ${interaction.user.tag}`,
@@ -109,7 +112,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 		const embed = new EmbedBuilder()
 			.setTitle(`Something went wrong with \`${interaction.commandName}\``)
 			.setDescription(
-				"Please let <@438818224293937153> know something has gone wrong!" +
+				`Please let <@${ownerId}> know something has gone wrong!` +
 				(error instanceof Error ?
 					"```ansi\n[1;4;31m" + error.name + "\n[0;31m" + error.message + "```" :
 					"```ansi\n[1;31m" + error + "```")
