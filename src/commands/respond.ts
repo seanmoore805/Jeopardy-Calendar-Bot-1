@@ -6,6 +6,8 @@ import {
 	SlashCommandBuilder,
 } from "discord.js";
 import emojiToImage from "../emojiToImage";
+import { Client as DBClient } from "@replit/database";
+import { Question } from "../types/Question";
 
 const data = new SlashCommandBuilder()
 	.setName("respond")
@@ -25,19 +27,62 @@ const data = new SlashCommandBuilder()
 	});
 
 async function execute(interaction: CommandInteraction) {
+	const response = interaction.options.get("response", true).value as string;
+	const wager = interaction.options.get("wager", false)?.value;
+
+	const strippedResponse = response
+		.toLowerCase()
+		.replace(/^(what|who|where|when) (is|are) (an|a|the)? ?/, "")
+		.replace("is it ", "")
+		.replace(/\?$/, "")
+		.replace("?", "");
+
+	const db = new DBClient();
+	const dayNum = await db.get("dayNum") as number;
+	const currentClue = await db.get("currentClue") as Question;
+
+	// TODO: Add stop accepting when no active clue
+
+	db.set(`responses/${dayNum}/${interaction.user.id}`, strippedResponse);
+
+	db.get(`scores/weekly/${interaction.user.id}`).then((score) => {
+		// TODO: Add support for wagering
+		if (score && +score === score) {
+			db.set(`scores/weekly/${interaction.user.id}`, score + (currentClue.value ?? 0));
+		} else {
+			db.set(`scores/weekly/${interaction.user.id}`, currentClue.value ?? 0);
+		}
+	});
+
+	db.get(`scores/alltime/${interaction.user.id}`).then((score) => {
+		if (score && +score === score) {
+			db.set(`scores/alltime/${interaction.user.id}`, score + (currentClue.value ?? 0));
+		} else {
+			db.set(`scores/alltime/${interaction.user.id}`, currentClue.value ?? 0);
+		}
+	});
+
 	const embed = new EmbedBuilder()
-		.setTitle("Responses are not yet implemented!")
+		.setTitle("Your response has been recorded!")
 		.setDescription(
-			"I don't have a database set up yet, so I can't record your responses.\n" +
-			"Please wait until <@438818224293937153> gives the go-ahead to start responding."
+			`You responded: \`${response}\`
+			Which I interpreted as: \`${strippedResponse}\`
+			to the clue:
+			> ${currentClue.category} - ${currentClue?.value ?? "Final Jeopardy!"}
+			> ${currentClue.clue}` +
+			(interaction.options.get("wager", false) ?
+				`\nand wagered \`$${wager}\`, but that's not implemented yet, \
+				so it's been ignored.` :
+				"") +
+			"\n\nThe correct response will be revealed tonight at 11 PM EST!"
 		)
 		.setFooter({
 			text: `Requested by ${interaction.user.tag}`,
 			iconURL: interaction.user.avatarURL() ?? interaction.user.defaultAvatarURL,
 		})
 		.setTimestamp(new Date())
-		.setColor("Yellow")
-		.setThumbnail(emojiToImage("🚧"))
+		.setColor("Green")
+		.setThumbnail(emojiToImage("✅"))
 	;
 
 	await interaction.reply({ embeds: [embed.data], ephemeral: true });
