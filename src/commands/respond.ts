@@ -45,20 +45,25 @@ async function execute(interaction: CommandInteraction) {
 
 	db.set(`responses/${dayNum}/${interaction.user.id}`, strippedResponse);
 
+	const isCorrect = currentClue.responses.includes(strippedResponse);
+
+	// TODO: Add support for FJ wagers
+	const value = currentClue.value ?? 0;
+	const scoreAdjustment = isCorrect ? value : -value;
+
 	db.get(`scores/weekly/${interaction.user.id}`).then((score) => {
-		// TODO: Add support for wagering
 		if (score && +score === score) {
-			db.set(`scores/weekly/${interaction.user.id}`, score + (currentClue.value ?? 0));
+			db.set(`scores/weekly/${interaction.user.id}`, score + scoreAdjustment);
 		} else {
-			db.set(`scores/weekly/${interaction.user.id}`, currentClue.value ?? 0);
+			db.set(`scores/weekly/${interaction.user.id}`, scoreAdjustment);
 		}
 	});
 
 	db.get(`scores/alltime/${interaction.user.id}`).then((score) => {
 		if (score && +score === score) {
-			db.set(`scores/alltime/${interaction.user.id}`, score + (currentClue.value ?? 0));
+			db.set(`scores/alltime/${interaction.user.id}`, score + scoreAdjustment);
 		} else {
-			db.set(`scores/alltime/${interaction.user.id}`, currentClue.value ?? 0);
+			db.set(`scores/alltime/${interaction.user.id}`, scoreAdjustment);
 		}
 	});
 

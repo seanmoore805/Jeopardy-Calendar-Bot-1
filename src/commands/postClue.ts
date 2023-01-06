@@ -67,6 +67,7 @@ async function execute(interaction: CommandInteraction) {
 	database.set("dayNum", daysSinceFirstDay);
 
 
+	// TODO: Add support for Final Jeopardy
 
 	const embed = new EmbedBuilder()
 		.setTitle(`Posting clue for ${today.toLocaleDateString("en-US")}`)
@@ -74,8 +75,10 @@ async function execute(interaction: CommandInteraction) {
 			`> **${clue.category} - ${clue.value ?? "Final Jeopardy!"}**
 			> ${clue.clue}
 			
-			*Original date: ${clue.originalDate}*`
-		)
+			*Original date: ${clue.originalDate}*
+
+			Use \`/respond\` to submit your response. The correct response will be revealed at 11pm EST.`
+		) // TODO: Use timestamp for 11pm EST - should be exactly today to avoid dst issues
 		.setImage(image)
 		.setFooter({
 			text: `Requested by ${interaction.user.tag}`,
