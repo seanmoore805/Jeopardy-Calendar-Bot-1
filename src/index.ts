@@ -22,7 +22,7 @@ declare module "discord.js" {
 	}
 }
 
-const token = dotenv.config().parsed?.API_KEY;
+const token = process.env.API_KEY;
 
 if (!token) {
 	throw new Error(

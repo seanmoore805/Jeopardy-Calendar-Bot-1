@@ -5,7 +5,7 @@ import {
 	EmbedBuilder,
 	SlashCommandBuilder,
 } from "discord.js";
-import { Client as DBClient } from "@replit/database";
+import { Database } from "../modules/database";
 import emojiToImage from "../emojiToImage";
 import { ownerId } from "../../config.json";
 import { Question } from "../types/Question";
@@ -32,7 +32,7 @@ async function execute(interaction: CommandInteraction) {
 		return await interaction.reply({ embeds: [embed.data], ephemeral: true });
 	}
 
-	const database = new DBClient();
+	const database = new Database();
 	const today = new Date();
 	const dayNum = await database.get("dayNum") as number;
 	const currentClue = await database.get("currentClue") as Question;
@@ -43,9 +43,18 @@ async function execute(interaction: CommandInteraction) {
 	const correctResponses = responses.filter((response) => currentClue.responses.includes(response));
 	const incorrectResponses = responses.filter((response) => !currentClue.responses.includes(response));
 
+	const scoresKeys = (await database.list()).filter((key) => key.startsWith("scores/weekly/"));
+	const scores = await Promise.all(scoresKeys.map((key) => database.get(key) as Promise<number>));
+
 	const embed = new EmbedBuilder()
-		.setTitle(`Posting results for ${today.toLocaleDateString("en-US")}"}`)
-		.setDescription(`The correct response: **${currentClue.responses[0]}**`)
+		.setTitle(`Results for ${today.toLocaleDateString("en-US")}`)
+		.setDescription(
+			`> **${currentClue.category} - ${currentClue.value ?? "Final Jeopardy!"}**
+			> ${currentClue.clue}
+		
+			*Original date: ${currentClue.originalDate}*
+			
+			The correct response: **${currentClue.responses[0]}**`)
 		.addFields([
 			{
 				name: "Correct Responses",
@@ -68,11 +77,11 @@ async function execute(interaction: CommandInteraction) {
 			iconURL: interaction.user.avatarURL() ?? interaction.user.defaultAvatarURL,
 		})
 		.setTimestamp(new Date())
-		.setColor("Green")
-		.setThumbnail(emojiToImage("✅"))
+		.setColor("Purple")
+		.setThumbnail(emojiToImage("📝"))
 	;
 
-	await interaction.reply({ embeds: [embed.data], ephemeral: true });
+	await interaction.reply({ embeds: [embed.data], ephemeral: false });
 }
 
 export { data, execute };

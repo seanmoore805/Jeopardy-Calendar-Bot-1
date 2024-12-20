@@ -1,6 +1,6 @@
 {
   "name": "jeopardy-calendar-bot",
-  "version": "0.0.1-alpha",
+  "version": "0.0.1-beta",
   "description": "A Discord bot for playing the Jeopardy! Day-to-Day Calendar",
   "main": "./out/index.js",
   "scripts": {
@@ -13,13 +13,18 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@keyv/sqlite": "^3.6.6",
     "@replit/database": "^2.0.2",
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
-    "twemoji": "^14.0.2"
+    "jeopardy-calendar-bot": "file:",
+    "node-cron": "^3.0.2",
+    "twemoji": "^14.0.2",
+    "winston": "^3.11.0"
   },
   "devDependencies": {
     "@jest/globals": "^29.3.1",
+    "@types/node-cron": "^3.0.7",
     "@typescript-eslint/eslint-plugin": "^5.47.1",
     "@typescript-eslint/parser": "^5.47.1",
     "eslint": "^8.30.0",

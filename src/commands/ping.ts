@@ -7,6 +7,7 @@ import {
 } from "discord.js";
 import emojiToImage from "../emojiToImage";
 import { version } from "../../package.json";
+import { Database } from "../modules/database";
 
 const data = new SlashCommandBuilder()
 	.setName("ping")
@@ -48,10 +49,10 @@ async function execute(interaction: CommandInteraction) {
 	const embed = new EmbedBuilder()
 		.setTitle(`${interaction.client.user?.username} is online!`)
 		.setDescription(
-			`Interaction Latency: ${interaction.createdTimestamp - Date.now()} ms
-			API Latency: ${Math.round(interaction.client.ws.ping)} ms
-			Uptime: ${uptimeFormatted}
-			Version: ${version}`
+			`⌛ Interaction Latency: ${Date.now() - interaction.createdTimestamp} ms
+			🌐 API Latency: ${Math.round(interaction.client.ws.ping)} ms
+			⏱ Uptime: ${uptimeFormatted}
+			⚙ Version: ${version}`
 		)
 		.setFooter({
 			text: `Requested by ${interaction.user.tag}`,

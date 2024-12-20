@@ -6,7 +6,7 @@ import {
 	SlashCommandBuilder,
 } from "discord.js";
 import emojiToImage from "../emojiToImage";
-import { Client as DBClient } from "@replit/database";
+import { Database } from "../modules/database";
 import { Question } from "../types/Question";
 
 const data = new SlashCommandBuilder()
@@ -16,14 +16,8 @@ const data = new SlashCommandBuilder()
 		return builder
 			.setName("response")
 			.setDescription("Your response to the clue")
+			.setMaxLength(300)
 			.setRequired(true);
-	})
-	.addIntegerOption((builder) => {
-		return builder
-			.setName("wager")
-			.setDescription("Your Final Jeopardy! wager (Saturdays only)")
-			.setRequired(false)
-			.setMinValue(0);
 	});
 
 async function execute(interaction: CommandInteraction) {
@@ -37,9 +31,12 @@ async function execute(interaction: CommandInteraction) {
 		.replace(/\?$/, "")
 		.replace("?", "");
 
-	const db = new DBClient();
+	const db = new Database();
 	const dayNum = await db.get("dayNum") as number;
 	const currentClue = await db.get("currentClue") as Question;
+
+	const today = new Date();
+	const resultTime = Math.round(new Date(today.toDateString() + " 23:00").valueOf() / 1000);
 
 	// TODO: Add stop accepting when no active clue
 
@@ -47,8 +44,7 @@ async function execute(interaction: CommandInteraction) {
 
 	const isCorrect = currentClue.responses.includes(strippedResponse);
 
-	// TODO: Add support for FJ wagers
-	const value = currentClue.value ?? 0;
+	const value = currentClue.value ?? await db.get(`wagers/${dayNum}/${interaction.user.id}`) as number;
 	const scoreAdjustment = isCorrect ? value : -value;
 
 	db.get(`scores/weekly/${interaction.user.id}`).then((score) => {
@@ -79,7 +75,7 @@ async function execute(interaction: CommandInteraction) {
 				`\nand wagered \`$${wager}\`, but that's not implemented yet, \
 				so it's been ignored.` :
 				"") +
-			"\n\nThe correct response will be revealed tonight at 11 PM EST!"
+			`\n\nThe correct response will be revealed tonight at <t:${resultTime}:t>.`
 		)
 		.setFooter({
 			text: `Requested by ${interaction.user.tag}`,
@@ -91,6 +87,8 @@ async function execute(interaction: CommandInteraction) {
 	;
 
 	await interaction.reply({ embeds: [embed.data], ephemeral: true });
+
+	console.log(`Response by ${interaction.user.tag}: ${strippedResponse} - ${isCorrect ? "Correct" : "Incorrect"}`);
 }
 
 export { data, execute };

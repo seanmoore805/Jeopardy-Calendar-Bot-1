@@ -1,44 +1,18 @@
 /** @format */
 
-import {
-	CommandInteraction,
-	EmbedBuilder,
-	SlashCommandBuilder,
-} from "discord.js";
-import { Database } from "../modules/database";
+import { Client, EmbedBuilder } from "discord.js";
+import { Database } from "./database";
 import emojiToImage from "../emojiToImage";
-import { ownerId } from "../../config.json";
+import { gameChannels } from "../../config.json";
 import dataset from "../../data/2021.json";
 import { Question, Round } from "../types/Question";
 
-const data = new SlashCommandBuilder()
-	.setName("post_clue")
-	.setDescription("[Admin only] Posts today's clue");
 
-
-async function execute(interaction: CommandInteraction) {
-	if (interaction.user.id !== ownerId) {
-		const embed = new EmbedBuilder()
-			.setTitle("You are not authorized to use this command.")
-			.setDescription("You must be a bot owner to use this command.")
-			.setFooter({
-				text: `Requested by ${interaction.user.tag}`,
-				iconURL: interaction.user.avatarURL() ?? interaction.user.defaultAvatarURL,
-			})
-			.setTimestamp(new Date())
-			.setColor("Red")
-			.setThumbnail(emojiToImage("🚫"))
-		;
-
-		return await interaction.reply({ embeds: [embed.data], ephemeral: true });
-	}
-
+export async function postClue(client: Client) {
 	// Determine today's clue
 	const today = new Date();
 	const firstDay = new Date(dataset.firstDay + "T00:00:00.000");
 	const daysSinceFirstDay = Math.floor((today.getTime() - firstDay.getTime()) / (1000 * 60 * 60 * 24));
-
-	const resultTime = Math.round(new Date(today.toDateString() + " 23:00").valueOf() / 1000);
 
 	const clue = dataset.questions[daysSinceFirstDay];
 	console.log(clue);
@@ -79,18 +53,21 @@ async function execute(interaction: CommandInteraction) {
 			
 			*Original date: ${clue.originalDate}*
 
-			Use \`/respond\` to submit your response. The correct response will be revealed at <t:${resultTime}:t>.`
-		)
+			Use \`/respond\` to submit your response. The correct response will be revealed at 11pm EST.`
+		) // TODO: Use timestamp for 11pm EST - should be exactly today to avoid dst issues
 		.setFooter({
-			text: `Requested by ${interaction.user.tag}`,
-			iconURL: interaction.user.avatarURL() ?? interaction.user.defaultAvatarURL,
+			text: "Automatically triggered by timer",
+			iconURL: emojiToImage("🕖"),
 		})
 		.setTimestamp(new Date())
 		.setColor("Purple")
 		.setThumbnail(image)
 	;
 
-	await interaction.reply({ embeds: [embed.data], ephemeral: false });
-}
+	gameChannels.forEach(async (channelId) => {
+		const channel = client.channels.cache.get(channelId);
+		if (!channel || !channel.isTextBased()) return;
+		await channel.send({ embeds: [embed.data] });
+	});
 
-export { data, execute };
+}
