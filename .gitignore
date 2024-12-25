@@ -6,6 +6,7 @@ coverage/
 
 # JS compiled files
 out/
+tsvToJson.js
 
 # Secrets! Shhh!
 .env

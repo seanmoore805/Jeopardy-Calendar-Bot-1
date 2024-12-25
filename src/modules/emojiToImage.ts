@@ -9,9 +9,9 @@ import twemoji from "twemoji";
  * @returns The URL of the emoji's image
  * 
  * @example
- * emojiToImage("👍"); // "https://twemoji.maxcdn.com/v/latest/72x72/1f44d.png"
+ * emojiToImage("👍"); // "https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f44d.png"
  */
 export default function emojiToImage(emoji: string): string {
 	const codePoint = twemoji.convert.toCodePoint(emoji);
-	return `https://twemoji.maxcdn.com/v/latest/72x72/${codePoint}.png`;
+	return `https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/${codePoint}.png`;
 }

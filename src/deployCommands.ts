@@ -3,7 +3,8 @@ import dotenv from "dotenv";
 import fs from "fs";
 import config from "../config.json";
 
-const token = dotenv.config().parsed?.API_KEY;
+dotenv.config();
+const token = process.env.API_KEY;
 const clientId = config.applicationId;
 const guildId = config["test-servers"];
 
@@ -20,6 +21,11 @@ console.log(`Found ${commandFiles.length} command files.`);
 async function loadCommands() {
 	// Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
 	for (const file of commandFiles) {
+		// Skip "post___" admin commands
+		if (file.includes("post")) {
+			console.log("Skipping " + file);
+			continue;
+		}
 		await import(`./commands/${file}`).then((command) => {
 			commands.push(command.data.toJSON());
 			console.debug(`Loaded command ${command.data.name}`);

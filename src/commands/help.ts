@@ -1,7 +1,7 @@
 import { CommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import fs from "fs";
 import path from "path";
-import emojiToImage from "../emojiToImage";
+import emojiToImage from "../modules/emojiToImage";
 
 const data = new SlashCommandBuilder()
 	.setName("help")

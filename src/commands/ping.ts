@@ -5,7 +5,7 @@ import {
 	EmbedBuilder,
 	SlashCommandBuilder,
 } from "discord.js";
-import emojiToImage from "../emojiToImage";
+import emojiToImage from "../modules/emojiToImage";
 import { version } from "../../package.json";
 import { Database } from "../modules/database";
 
@@ -49,10 +49,10 @@ async function execute(interaction: CommandInteraction) {
 	const embed = new EmbedBuilder()
 		.setTitle(`${interaction.client.user?.username} is online!`)
 		.setDescription(
-			`⌛ Interaction Latency: ${Date.now() - interaction.createdTimestamp} ms
-			🌐 API Latency: ${Math.round(interaction.client.ws.ping)} ms
-			⏱ Uptime: ${uptimeFormatted}
-			⚙ Version: ${version}`
+			`⌛ Interaction Latency: ${Date.now() - interaction.createdTimestamp} ms\n` +
+			`🌐 API Latency: ${Math.round(interaction.client.ws.ping)} ms\n` +
+			`⏱ Uptime: ${uptimeFormatted}\n` +
+			`⚙ Version: ${version}`
 		)
 		.setFooter({
 			text: `Requested by ${interaction.user.tag}`,

@@ -1,40 +1,33 @@
 /** @format */
 
-import { Client } from "@replit/database";
+import KeyvSqlite from "@keyv/sqlite";
 import dotenv from "dotenv";
 
 export class Database {
-	db: Client;
+	db: KeyvSqlite;
 
 	constructor() {
 		dotenv.config();
-		const key = process.env.REPLIT_DB_URL;
-		this.db = new Client(key);
+		this.db = new KeyvSqlite("sqlite:///out/data/database.sqlite");
 	}
 
 	async get(key: string) {
-		return await this.db.get(key);
+		const value = await this.db.get(key);
+		return value === undefined ? value : JSON.parse(value);
 	}
 	async set(key: string, value: any) {
-		return await this.db.set(key, value);
+		try {
+			return await this.db.set(key, JSON.stringify(value));
+		} catch (e) {
+			if (e.name === "SQLITE_BUSY" && e.message === "database is locked") {
+				console.warn("Database busy, retrying");
+				return this.set(key, value);
+			} else {
+				throw e;
+			}
+		}
 	}
 	async delete(key: string) {
 		return await this.db.delete(key);
-	}
-	async list(prefix?: string) {
-		return await this.db.list(prefix);
-	}
-
-	async empty() {
-		return await this.db.empty();
-	}
-	async getAll() {
-		return await this.db.getAll();
-	}
-	async setAll(obj: Record<any, any>) {
-		return await this.db.setAll(obj);
-	}
-	async deleteMultiple(...args: string[]) {
-		return await this.db.deleteMultiple(...args);
 	}
 }
