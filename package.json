@@ -1,0 +1,43 @@
+{
+  "name": "jeopardy-daily-calendar",
+  "version": "0.2.0",
+  "description": "A Discord bot for playing the Jeopardy! Day-to-Day Calendar",
+  "homepage": "https://github.com/WeirdAlex03/Jeopardy-Calendar-Bot#readme",
+  "bugs": {
+    "url": "https://github.com/WeirdAlex03/Jeopardy-Calendar-Bot/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WeirdAlex03/Jeopardy-Calendar-Bot.git"
+  },
+  "license": "MIT",
+  "author": "",
+  "main": "out/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node ./src/index.ts",
+    "test": "jest",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "discord.js": "^14.17.2",
+    "dotenv": "^16.4.7",
+    "jeopardy-daily-calendar": "file:",
+    "reflect-metadata": "^0.2.2",
+    "twemoji": "^14.0.2",
+    "typeorm": "^0.3.20",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.10.2",
+    "eslint": "^9.17.0",
+    "globals": "^15.14.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.2"
+  }
+}
