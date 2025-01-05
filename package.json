@@ -12,10 +12,11 @@
   },
   "license": "MIT",
   "author": "",
+  "type": "module",
   "main": "out/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "ts-node ./src/index.ts",
+    "start": "tsx ./src/index.ts",
     "test": "jest",
     "lint": "eslint"
   },
@@ -24,6 +25,7 @@
     "dotenv": "^16.4.7",
     "jeopardy-daily-calendar": "file:",
     "reflect-metadata": "^0.2.2",
+    "tsx": "^4.19.2",
     "twemoji": "^14.0.2",
     "typeorm": "^0.3.20",
     "winston": "^3.17.0"

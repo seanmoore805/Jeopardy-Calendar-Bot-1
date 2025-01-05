@@ -1,5 +1,5 @@
 // Require the necessary discord.js classes
-import { Client, Events, GatewayIntentBits } from 'discord.js';
+import { Client, Events, GatewayIntentBits } from "discord.js";
 import "dotenv/config";
 
 const token = process.env.API_KEY;
