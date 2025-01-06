@@ -14,3 +14,4 @@ A Discord bot for playing the *Jeopardy!* Day-to-Day Calendar.
 ## TODO
 
 - Log file rotation (there's a Winston module or plugin or something like that for that)
+- Graceful handling if trying to login without enough permissions on the account
