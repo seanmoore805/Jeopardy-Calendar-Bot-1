@@ -1,5 +1,8 @@
-
 # c-spell: disable
+
+# Bot config (application id, server ids, etc)
+config.json
+
 ################################################################################
 #  Template from https://github.com/github/gitignore/blob/main/Node.gitignore  #
 ################################################################################

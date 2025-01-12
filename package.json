@@ -18,7 +18,8 @@
     "build": "tsc",
     "start": "tsx ./src/index.ts",
     "test": "jest",
-    "lint": "eslint"
+    "lint": "eslint",
+    "deployCommands": "tsx ./src/scripts/deployCommands"
   },
   "dependencies": {
     "discord.js": "^14.17.2",
