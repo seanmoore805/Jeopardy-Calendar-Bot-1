@@ -22,7 +22,10 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 	if (!command) {
 		logger.error(`No command matching ${interaction.commandName} was found.`);
-		await interaction.reply({content: "There was an error while executing this command!",flags: MessageFlags.Ephemeral,});
+		await interaction.reply({
+			content: "There was an error while executing this command!",
+			flags: MessageFlags.Ephemeral,
+		});
 		return;
 	}
 
