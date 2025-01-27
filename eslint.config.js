@@ -6,7 +6,7 @@ import tseslint from "typescript-eslint";
 /** @type {import("eslint").Linter.Config[]} */
 export default [
 	{ files: ["**/*.{js,mjs,cjs,ts}"] },
-	{ ignores: ["out/"] },
+	{ ignores: ["out/", "database/"] },
 	{ languageOptions: { globals: globals.node } },
 	pluginJs.configs.recommended,
 	...tseslint.configs.recommended,
@@ -52,6 +52,13 @@ export default [
 			"space-unary-ops": "error",
 			"spaced-comment": "error",
 			"yoda": "error",
+		},
+	},
+	{
+		files: [ "src/entities/**/*" ],
+		rules: {
+			// (Insists on indenting after annotations)
+			"indent": "off",
 		},
 	},
 ];

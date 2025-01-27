@@ -1,7 +1,10 @@
+// For TypeORM
+import "reflect-metadata";
 import { Events, MessageFlags } from "discord.js";
 import "dotenv/config";
 import logger from "./modules/logger";
 import { client } from "./modules/client";
+import { AppDataSource } from "./dataSource";
 
 // When the client is ready, run this code (only once).
 // The distinction between `client: Client<boolean>` and `readyClient: Client<true>` is important for TypeScript developers.
@@ -47,5 +50,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
 	}
 });
 
-// Token already applied from env in ./modules/login
-client.login();
+// Wait for database to be set up, then log in to Discord
+AppDataSource.initialize().then(() => {
+	// Token already applied from env in ./modules/login
+	client.login();
+});

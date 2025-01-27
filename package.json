@@ -20,6 +20,7 @@
     "test": "jest",
     "lint": "eslint",
     "deployCommands": "tsx ./src/scripts/deployCommands",
+    "typeorm": "typeorm-ts-node-commonjs",
     "__buildNoEmit": "tsc --noEmit"
   },
   "pre-commit": [
@@ -31,6 +32,7 @@
     "discord.js": "^14.17.2",
     "dotenv": "^16.4.7",
     "jeopardy-daily-calendar": "file:",
+    "pg": "^8.13.1",
     "reflect-metadata": "^0.2.2",
     "tsx": "^4.19.2",
     "twemoji": "^14.0.2",

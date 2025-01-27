@@ -3,6 +3,9 @@
 # Bot config (application id, server ids, etc)
 config.json
 
+# Database files
+database/
+
 ################################################################################
 #  Template from https://github.com/github/gitignore/blob/main/Node.gitignore  #
 ################################################################################
