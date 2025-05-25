@@ -16,7 +16,7 @@ export class ScoreEntry extends BaseEntity {
 
 	/** The score this user has */
 	@Column("int")
-	value!: number;
+	score!: number;
 
 	/** The parent ScoreGroup this entry belongs to (i.e. weekly or yearly score list) */
 	@ManyToOne(() => ScoreGroup, (scoreGroup) => scoreGroup.entries)
