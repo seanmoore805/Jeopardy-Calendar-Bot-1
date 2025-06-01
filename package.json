@@ -34,7 +34,7 @@
     "jeopardy-daily-calendar": "file:",
     "pg": "^8.13.1",
     "reflect-metadata": "^0.2.2",
-    "tsx": "^4.19.2",
+    "tsx": "^4.19.4",
     "twemoji": "^14.0.2",
     "typeorm": "^0.3.20",
     "winston": "^3.17.0"
